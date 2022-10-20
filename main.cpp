@@ -1,44 +1,30 @@
-/* 
-    Shipping cost calculator
-    
-    Ask the user for package dimension in inches
-    length, width, height - these should be integers
-    
-    All dimension must be 10 inches or less or we cannot ship it
-    
-    Base cost $2.50
-    If package volume is greater than 100 cubic inches there is a 10% surcharge
-    If package volume is greater than 500 cubic inches there is a 25% surcharge
-
-*/
-
 #include <iostream>
 using namespace std;
 
-int main() {
-    cout << "Enter the length, width and height of your package with spaces inbetween: ";
-    int length {}, width {}, height {};
-    cin >> length >> width >> height;
+int main()
+{
+	cout << "Enter an amount in cents: ";
+	int originalMoneyInCents {};
+	cin >> originalMoneyInCents; 
 
-    int volume {length * width * height};
+	int balance {}, dollars {}, quarters {}, dimes {}, nickels {}, pennies {};
+	balance = originalMoneyInCents;
 
-    double baseCost {2.50};
-    double surcharge25 {1.25};
-    double surcharge10 {1.10};
+	dollars = balance / 100;
+	balance %= 100; 
+	quarters = balance / 25;
+	balance %= 25;
+	dimes = balance / 10;
+	balance %= 10;
+	nickels = balance / 5;
+	balance %= 5;
+	pennies = balance / 1;
 
-    if (length > 10 || width > 10 || height > 10) {
-        cout << "Your package is too large for us to ship." << endl;
-    } 
-    else {
-        if (volume > 500) {
-            baseCost *= surcharge25;  
-        } 
-        else if (volume > 100) {
-            baseCost *= surcharge10; 
-        } 
-        cout << "The volume of your package is " << volume << " cubic inches." << endl;
-        cout << "Your package will cost $" << baseCost << endl; 
-    }
-
+	cout << endl << originalMoneyInCents << " cents is equivalent to: " << endl;
+	cout << "Dollars  : " << dollars << endl;
+	cout << "Quarters : " << quarters << endl;
+	cout << "Dimes    : " << dimes << endl;
+	cout << "Nickels  : " << nickels << endl;
+	cout << "Pennies  : " << pennies << endl;
     return 0;
 }
