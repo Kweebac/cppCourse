@@ -1,89 +1,163 @@
 #include <iostream>
 #include <vector>
-#include <bits/stdc++.h>
-#include <iomanip>
-using namespace std;
+#include <string>
+#include <limits>
+#include <algorithm>
+
+using std::cout, std::cin, std::endl, std::vector;
+
+char menu() {
+    cout << "\n-----------------------------" << endl;
+    cout << "P - Print numbers" << endl;
+    cout << "A - Add a number" << endl;
+    cout << "M - Display the mean" << endl;
+    cout << "S - Display the smallest number" << endl;
+    cout << "L - Display the largest number" << endl;
+    cout << "F - Find a number" << endl;
+    cout << "Q - Quit" << endl;
+    cout << "-------------------------------" << endl;
+
+    char choice {};
+    cout << "\nEnter an option: ";
+    cin >> choice;
+    choice = toupper(choice);
+    return choice;
+}
+
+void displayList(vector<double> vec) {
+    for (auto v : vec) {
+        cout << v << " ";
+    }
+}
+
+void print(vector<double> vec) {
+    if (vec.size() != 0) {
+        cout << "[ ";
+        displayList(vec);
+        cout << "]" << endl;
+    }
+    else {
+        cout << "The vector is empty" << endl;
+    }
+}
+
+void addNumber(vector<double> &vec) {
+    double addNum {};
+    bool valueIsNumber {false};
+
+    while (valueIsNumber == false) {
+        cout << "Enter a number: ";
+        if (cin >> addNum) {
+            vec.push_back(addNum);
+            cout << addNum << " added." << endl;
+
+            valueIsNumber = true;
+        }
+        else {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        }
+    }
+}
+
+void mean(vector<double> vec) {
+    if (vec.size() != 0) {
+        double mean {};
+        for (auto v : vec) {
+            mean += v;
+        } 
+        cout << mean / vec.size();
+    }
+    else {
+        cout << "The vector is empty" << endl;
+    }
+}
+
+void smallest(vector<double> vec) {
+    if (vec.size() != 0) {
+        cout << *std::min_element(vec.begin(), vec.end()) << " is the smallest number" << endl;
+    }
+    else {
+        cout << "The vector is empty" << endl;
+    }
+}
+
+void largest(vector<double> vec) {
+    if (vec.size() != 0) {
+        cout << *std::max_element(vec.begin(), vec.end()) << " is the largest number" << endl;
+    }
+    else {
+        cout << "The vector is empty" << endl;
+    }
+}
+
+void findNumber(vector<double> vec) {
+    double findNumber {};
+
+    if (vec.size() != 0) {
+        bool valueIsNumber {false};
+        double counter {};
+
+        while (valueIsNumber == false) {
+            cout << "Enter a number: ";
+            cin >> findNumber;
+            if (!cin) {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+            }
+            else {
+                for (auto v : vec) {
+                    if (v == findNumber) {
+                        cout << findNumber << " is in the list" << endl;
+                    }
+                    else {
+                        counter += 1;
+                    }
+                }
+                if (counter == vec.size()) {
+                    cout << findNumber << " isn't in the list" << endl;
+                }
+
+                valueIsNumber = true;
+            }
+        }
+    }
+    else {
+        cout << "The vector is empty" << endl;
+    }
+}
 
 int main() {
-    vector <int> vec {};
     char choice {};
-    bool done {true};
-    cout << fixed << setprecision(2);
+    vector<double> vec {};
 
     do {
-        cout << "\nP - Print numbers" << endl;
-        cout << "A - Add a number" << endl;
-        cout << "M - Display mean of the numbers" << endl;
-        cout << "S - Display the smallest number" << endl;
-        cout << "L - Display the largest number" << endl;
-        cout << "Q - Quit" << endl;
-        cout << "\nEnter your choice: ";
-        cin >> choice;
+        choice = menu();
 
-        switch (choice) {
-            case 'p':
+        switch(choice) {
             case 'P':
-                if (vec.size() != 0) {
-                cout << "[ ";
-                for (auto i : vec) {
-                    cout << i << " ";
-                }
-                cout << "]";
-                }
-                else {
-                    cout << "[] - the list is empty" << endl;
-                }
+                print(vec);
                 break;
-            case 'a':
-            case 'A': {
-                int add_num {};
-                cout << "Enter an integer to add: ";
-                cin >> add_num;
-                vec.push_back(add_num);
-                cout << add_num << " added" << endl;
-                break; 
-            }
-            case 'm':
-            case 'M': {
-                if (vec.size() != 0) {
-                double result {};
-                for (auto i : vec) {
-                    result += i;
-                }
-                cout << "The mean is " << result / vec.size() << endl;
-                }
-                else {
-                    cout << "Unable to calculate the mean - no data" << endl;
-                }
+            case 'A':
+                addNumber(vec);
                 break;
-            }
-            case 's':
-            case 'S': {
-                if (vec.size() != 0) {
-                    cout << "The smallest number is " << *min_element(vec.begin(), vec.end()) << endl;
-                }
-                else {
-                    cout << "Unable to determine the smallest number - list is empty" << endl;
-                }
+            case 'M':
+                mean(vec);
                 break;
-            }
-            case 'l':
+            case 'S':
+                smallest(vec);
+                break;
             case 'L':
-                if (vec.size() != 0) {
-                    cout << "The largest number is " << *max_element(vec.begin(), vec.end()) << endl;
-                }
-                else {
-                    cout << "Unable to determine the largest number - list is empty" << endl;
-                }
+                largest(vec);
                 break;
-            case 'q':
+            case 'F':
+                findNumber(vec);
+                break;
             case 'Q':
-                cout << "Goodbye" << endl;
-                done = false;
+                cout << "Loop finished" << endl;
                 break;
             default:
-                cout << "Unknown selection, please try again" << endl;
+                cout << "Invalid letter" << endl;
         }
-    } while (done == true);
-    return 0;   
+    } while (choice != 'Q');
 }
