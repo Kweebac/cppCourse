@@ -160,4 +160,5 @@ int main() {
                 cout << "Invalid letter" << endl;
         }
     } while (choice != 'Q');
+    return 0;
 }
