@@ -12,4 +12,5 @@ int main() {
     Kweebac.displayMovies();
     Kweebac.incrementMovie("Harry Potter");
     Kweebac.displayMovie("Harry Potter"); 
+    return 0;
 }
